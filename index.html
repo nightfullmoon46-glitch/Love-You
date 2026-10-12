@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0710" />
+  <meta name="description" content="A private interactive love story." />
+  <title>Only Us ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas class="ambient-canvas" id="ambientCanvas" aria-hidden="true"></canvas>
+  <div class="transition-veil" id="transitionVeil" aria-hidden="true">
+    <i></i><i></i><i></i>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+
+  <div class="journey" id="journey">
+    <div class="journey-progress" aria-label="Story progress">
+      <span id="sceneNumber">01</span>
+      <div class="journey-line"><i id="journeyFill"></i></div>
+      <span id="sceneTotal">10</span>
+      <span class="progress-heart" aria-hidden="true">♡</span>
+    </div>
+
+    <button class="back-orb" id="backBtn" type="button" aria-label="Previous scene">←</button>
+
+    <!-- 01 -->
+    <section class="screen active" data-scene="landing">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="orbit o1" aria-hidden="true"></div>
+      <div class="orbit o2" aria-hidden="true"></div>
+
+      <div class="hero">
+        <p class="eyebrow">PRIVATE UNIVERSE / MADE FOR ONE PERSON</p>
+        <h1>Hey,<br><em>you found it.</em></h1>
+        <p class="lead">I couldn't fit everything I wanted to tell you into one message.<br>So I made you this.</p>
+
+        <button class="portal" id="enterBtn" type="button">
+          <span class="portal-ring"></span>
+          <span class="portal-dot"></span>
+          <span class="portal-spark s1">✦</span>
+          <span class="portal-spark s2">♡</span>
+          <span class="portal-spark s3">✧</span>
+          <strong>enter</strong>
+          <small>our little world</small>
+        </button>
+      </div>
+
+      <div class="whisper w1">you feel like home</div>
+      <div class="whisper w2">still choosing you</div>
+      <div class="whisper w3">in every universe</div>
+    </section>
+
+    <!-- 02 -->
+    <section class="screen" data-scene="reasons">
+      <div class="scene-grid">
+        <div class="scene-copy">
+          <p class="eyebrow">REASONS I LOVE YOU</p>
+          <h2>Ask me<br>one reason.</h2>
+          <p class="muted">Every tap gives you another little truth. Find three to unlock what comes next.</p>
+
+          <div class="tiny-progress">
+            <span id="reasonProgress">0 / 3 discovered</span>
+          </div>
+        </div>
+
+        <div class="reason-stage">
+          <div class="reason-index" id="reasonIndex">01</div>
+          <div class="reason-quote" id="reasonQuote">“Because an ordinary day feels different when you're in it.”</div>
+          <button class="pill-action" id="reasonBtn" type="button">
+            <span>give me a reason</span><b>↗</b>
+          </button>
+          <button class="next-action hidden" id="reasonsNext" type="button">continue <span>→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="screen" data-scene="art">
+      <div class="art-shell">
+        <div class="art-copy">
+          <p class="eyebrow">A LITTLE CHAOS, LIKE US</p>
+          <h2>A painting that never exists twice.</h2>
+          <p class="muted">Every time you press the button, a new abstract love painting is created just for this moment.</p>
+        </div>
+
+        <div class="canvas-wrap">
+          <canvas id="artCanvas" aria-label="Random generative abstract love art"></canvas>
+          <div class="art-light" aria-hidden="true"></div>
+          <div class="art-meta"><span id="artName">untitled feeling #01</span><span>♡</span></div>
+        </div>
+
+        <div class="art-controls">
+          <button class="pill-action compact" id="regenerateArt" type="button"><span>make another</span><b>✦</b></button>
+          <button class="next-action hidden" id="artNext" type="button">keep this one <span>→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="screen" data-scene="scratch">
+      <div class="center-stage">
+        <p class="eyebrow">SCRATCH A SECRET</p>
+        <h2>Something is hiding underneath.</h2>
+        <p class="muted">Use your finger or mouse. Reveal enough to unlock the next page.</p>
+
+        <div class="scratch-card" id="scratchCard">
+          <div class="scratch-secret">
+            <span class="big-heart">♡</span>
+            <p>You are still my<br>favorite person.</p>
+            <small>even on the annoying days.</small>
+          </div>
+          <canvas id="scratchCanvas"></canvas>
+          <div class="scratch-shine" aria-hidden="true"></div>
+          <div class="scratch-meter"><i id="scratchMeter"></i></div>
+        </div>
+
+        <button class="next-action hidden" id="scratchNext" type="button">secret revealed <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="screen" data-scene="hold">
+      <div class="center-stage narrow">
+        <p class="eyebrow">DON'T JUST CLICK</p>
+        <h2>Some things should take a little longer to open.</h2>
+
+        <div class="hold-floaters" aria-hidden="true"><i>♡</i><i>✦</i><i>♡</i></div>
+        <button class="hold-orb" id="holdOrb" type="button">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="hold-track" cx="60" cy="60" r="53"></circle>
+            <circle class="hold-progress" id="holdProgress" cx="60" cy="60" r="53"></circle>
+          </svg>
+          <span class="hold-heart">♡</span>
+          <small id="holdText">press & hold</small>
+        </button>
+
+        <div class="locked-message" id="lockedMessage">
+          <p>I don't only love the easiest version of you. I love the quiet, tired, overthinking, still-figuring-it-out version too.</p>
+        </div>
+
+        <button class="next-action hidden" id="holdNext" type="button">keep going <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="screen" data-scene="wrapped">
+      <div class="wrapped-layout">
+        <div class="wrapped-copy">
+          <p class="eyebrow">RELATIONSHIP WRAPPED</p>
+          <h2>Our extremely scientific statistics.</h2>
+          <p class="muted">Tap through all four cards.</p>
+        </div>
+
+        <div class="wrapped-card" id="wrappedCard">
+          <span class="wrapped-count" id="wrappedCount">01 / 04</span>
+          <small id="wrapLabel">OUR FAVORITE ERA</small>
+          <strong id="wrapValue">US</strong>
+          <p id="wrapCaption">still my favorite plot twist.</p>
+          <button class="card-tap" id="wrapNextCard" type="button">tap for next stat ↗</button>
+        </div>
+
+        <button class="next-action hidden" id="wrappedNext" type="button">continue <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section class="screen" data-scene="countdown">
+      <div class="countdown-stage">
+        <p class="eyebrow">UNTIL OUR NEXT SPECIAL DAY</p>
+        <h2 id="countdownTitle">Valentine's Day</h2>
+
+        <div class="countdown-grid">
+          <div><strong id="cdDays">000</strong><span>days</span></div>
+          <div><strong id="cdHours">00</strong><span>hours</span></div>
+          <div><strong id="cdMinutes">00</strong><span>minutes</span></div>
+          <div><strong id="cdSeconds">00</strong><span>seconds</span></div>
+        </div>
+
+        <button class="wish-button" id="wishBtn" type="button"><span>make a tiny wish</span><i>✦</i></button>
+        <p class="wish-copy" id="wishCopy"></p>
+        <button class="next-action hidden" id="countdownNext" type="button">wish made <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section class="screen" data-scene="question">
+      <div class="question-stage">
+        <p class="eyebrow">VERY IMPORTANT QUESTION</p>
+        <h2>Do you love me?</h2>
+
+        <div class="answer-field" id="answerField">
+          <button class="yes-btn" id="yesBtn" type="button">obviously ♡</button>
+          <button class="no-btn" id="noBtn" type="button">no</button>
+        </div>
+
+        <div class="yes-result" id="yesResult">
+          <span>correct answer detected</span>
+          <p>I knew you were smart. ♡</p>
+        </div>
+
+        <button class="next-action hidden" id="questionNext" type="button">obviously continue <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="screen" data-scene="calculator">
+      <div class="calc-shell">
+        <div class="calc-head">
+          <div>
+            <p class="eyebrow">HIGHLY UNOFFICIAL SCIENCE</p>
+            <h2>Love calculator.</h2>
+          </div>
+          <span class="online"><i></i> questionable algorithm online</span>
+        </div>
+
+        <div class="inputs">
+          <label><span>Your name</span><input id="nameOne" maxlength="30" placeholder="Your name"></label>
+          <b>♡</b>
+          <label><span>Their name</span><input id="nameTwo" maxlength="30" placeholder="Their name"></label>
+        </div>
+
+        <button class="calc-btn" id="calcBtn" type="button">calculate the chemistry</button>
+
+        <div class="calc-result">
+          <div class="score"><span id="score">?</span><small>%</small></div>
+          <div>
+            <small>THE UNIVERSE SAYS</small>
+            <h3 id="calcTitle">Waiting for two names.</h3>
+            <p id="calcCopy">Even fake science needs a little data.</p>
+          </div>
+        </div>
+
+        <button class="next-action hidden" id="calcNext" type="button">accept the science <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="screen" data-scene="final">
+      <div class="final-stage">
+        <p class="eyebrow">YOU MADE IT TO THE END</p>
+        <h2>But I saved the most important thing for last.</h2>
+
+        <button class="envelope" id="envelope" type="button" aria-label="Open the final letter">
+          <span class="env-back"></span>
+          <span class="letter"><i>one last thing</i></span>
+          <span class="env-front"></span>
+          <span class="env-flap"></span>
+        </button>
+        <p class="tap-note">tap the envelope</p>
+
+        <div class="final-letter" id="finalLetter">
+          <blockquote>Out of every person I could have met, every conversation I could have had, and every direction life could have taken me… somehow it brought me to you.</blockquote>
+          <p>I don't know what every tomorrow looks like. I just know I like the ones where you're there.</p>
+          <strong>And I'd still choose you. ♡</strong>
+          <button class="restart-btn" id="restartBtn" type="button">experience it again ↻</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+  <div class="particle-layer" id="particles" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
